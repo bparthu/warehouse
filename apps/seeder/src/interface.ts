@@ -8,6 +8,10 @@ export interface Upsertable {
   upsert: () => void
 }
 
+export type DBConfig = {
+  sqlFilesPath: string
+}
+
 // type to represent allowed input type
 export type AllowedInput = "inventory" | "products"
 

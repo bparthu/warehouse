@@ -1,6 +1,10 @@
 import Inventory from "./model/Inventory"
 import Product from "./model/Product"
-import { ConfigMap } from "./interface"
+import { ConfigMap, DBConfig } from "./interface"
+
+const dbConfig: DBConfig = {
+  sqlFilesPath: `${__dirname}/sql/`
+}
 
 const configMap: ConfigMap = {
   inventory: {
@@ -15,4 +19,4 @@ const configMap: ConfigMap = {
   }
 }
 
-export { configMap }
+export { configMap, dbConfig }
