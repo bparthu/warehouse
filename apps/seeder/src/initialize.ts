@@ -1,5 +1,6 @@
-import { Upsertable, Type } from "./interface"
+import { Upsertable, Type } from "./interface";
 
-const initialize = (ClassRef: Type<Upsertable>): Promise<Upsertable> => Promise.resolve(new ClassRef())
+const initialize = (ClassRef: Type<Upsertable>): Promise<Upsertable> =>
+  Promise.resolve(new ClassRef());
 
-export default initialize
+export default initialize;

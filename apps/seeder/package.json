@@ -20,6 +20,8 @@
   "scripts": {
     "test": "jest --verbose --config ../../jest.config.json --rootDir ./",
     "start-local": "ts-node src/index.ts",
+    "lint-check": "eslint ./src '**/*.ts'",
+    "lint-fix": "eslint ./src '**/*.ts' --fix",
     "build": "tsc"
   },
   "dependencies": {

@@ -5,21 +5,21 @@ export interface Type<T> extends Function {
 
 // define interface to implement
 export interface Upsertable {
-  upsert: () => void
+  upsert: () => void;
 }
 
 export type DBConfig = {
-  sqlFilesPath: string
-}
+  sqlFilesPath: string;
+};
 
 // type to represent allowed input type
-export type AllowedInput = "inventory" | "products"
+export type AllowedInput = "inventory" | "products";
 
 // type to represent config map
 export type ConfigMap = {
   [key in AllowedInput]: {
-    filePath: string,
-    jsonPath: string,
-    ClassRef: Type<Upsertable>
-  }
-}
+    filePath: string;
+    jsonPath: string;
+    ClassRef: Type<Upsertable>;
+  };
+};

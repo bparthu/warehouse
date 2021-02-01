@@ -1,7 +1,7 @@
-import { Upsertable } from "../interface"
+import { Upsertable } from "../interface";
 
 export default class Product implements Upsertable {
   upsert() {
-    console.log("upserting product")
+    console.log("upserting product");
   }
 }

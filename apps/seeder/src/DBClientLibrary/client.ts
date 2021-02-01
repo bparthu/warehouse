@@ -1,8 +1,8 @@
-import { createPool, PoolOptions, Pool } from "mysql2"
-import Database from "./model/Database"
-import { promises as fsp, readFileSync } from "fs"
-import { parse, join } from "path"
-import { pathToFileURL } from "url"
+import { createPool, PoolOptions, Pool } from "mysql2";
+import Database from "./model/Database";
+import { promises as fsp, readFileSync } from "fs";
+import { parse, join } from "path";
+import { pathToFileURL } from "url";
 
 /*
 const initializeDBClient = async (options: PoolOptions, sqlPath: string): Promise<Database>  => {
@@ -19,9 +19,10 @@ const initializeDBClient = async (options: PoolOptions, sqlPath: string): Promis
 
 // load sql scripts into memory during app startup
 const createQueryMap = async (sqlFilesPath: string) => {
-  const files = await fsp.readdir(sqlFilesPath)
-  return files.map((file) => ({[parse(file).name]: readFileSync(join(sqlFilesPath, file), 'utf-8')}))
-}
+  const files = await fsp.readdir(sqlFilesPath);
+  return files.map((file) => ({
+    [parse(file).name]: readFileSync(join(sqlFilesPath, file), "utf-8"),
+  }));
+};
 
-
-export { createQueryMap }
+export { createQueryMap };

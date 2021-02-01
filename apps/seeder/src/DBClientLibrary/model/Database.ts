@@ -1,10 +1,10 @@
-import { Pool } from "mysql2"
+import { Pool } from "mysql2";
 
 class Database {
-  pool: Pool
+  pool: Pool;
   constructor(pool: Pool) {
-    this.pool = pool
+    this.pool = pool;
   }
 }
 
-export default Database
+export default Database;
