@@ -1,0 +1,16 @@
+"name": \"MySQL\",
+"config": {
+"connector.class" = \"io.debezium.connector.mysql.MySqlConnector\",
+"database.hostname" = \"mysql\",
+"database.port" = \"3306\",
+"database.user" = \"example-user\",
+"database.password" = \"example-pw\",
+"database.allowPublicKeyRetrieval" = \"true\",
+"database.server.id" = \"184054\",
+"database.server.name" = \"call-center-db\",
+"database.whitelist" = \"call-center\",
+"database.history.kafka.bootstrap.servers" = \"broker:9092\",
+"database.history.kafka.topic" = \"call-center\",
+"table.whitelist" = \"call-center.calls\",
+"include.schema.changes" = \"false\"
+plugin.path = confluent-hub-components

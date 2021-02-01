@@ -1,0 +1,442 @@
+confluent-hub install --component-dir confluent-hub-components --worker-configs worker-configs/config.prop --no-prompt confluentinc/kafka-connect-jdbc:latest
+confluent-hub install --component-dir confluent-hub-components --worker-configs worker-configs/config.prop --no-prompt debezium/debezium-connector-mysql:1.1.0
+
+
+---------
+1. infra for mysql
+  a. start mysql server from docker-compose
+  b. create database
+  c. create empty tables
+2. process inventory json / product json
+3. rest apis
+   GET /products
+   DELETE /products/:productId
+   
+
+---------
+
+GRANT ALL PRIVILEGES ON *.* TO 'example-user' WITH GRANT OPTION;
+ALTER USER 'example-user'@'%' IDENTIFIED WITH mysql_native_password BY 'example-pw';
+FLUSH PRIVILEGES;
+
+use warehouse;
+
+create table inventory (id int auto_increment, name text, stock int, primary key(id));
+insert into inventory(name, stock) values("article1", 5);
+insert into inventory(name, stock) values("article2", 5);
+insert into inventory(name, stock) values("article3", 5);
+insert into inventory(name, stock) values("article4", 5);
+insert into inventory(name, stock) values("article5", 5);
+insert into inventory(name, stock) values("article5", 5);
+insert into inventory(name, stock) values("article6", 5);
+
+
+insert into inventory(name, stock) values("article6", 1);
+
+
+create table product (id int auto_increment, name text, primary key(id));
+insert into product(name) values("product1");
+insert into product(name) values("product2");
+insert into product(name) values("product3");
+
+
+select productid, min(can_make) as prd_stock from PRODUCTINVENTORYENRICHED group by productid;
+
+
+select p.id, p.name, min(floor(i.stock/pi.amount_of)) as prd_stock from product p inner join ProductInventory pi on pi.prd_id = p.id inner join inventory i on i.id=pi.inv_id group by p.id having p.id=1;
+begin;
+select i.id,i.stock from inventory i where id in (select inv_id from ProductInventory where prd_id=2) for update;
+update inventory i inner join ProductInventory pi on pi.inv_id = i.id set stock = i.stock - pi.amount_of where pi.prd_id=3; 
+commit;
+select productid, min(can_make) as prd_stock from PRODUCTINVENTORYENRICHED group by productid;
+
+
+select p.id, p.name, min(floor(i.stock/pi.amount_of)) as prd_stock from product p
+inner join ProductInventory pi on pi.prd_id = p.id
+inner join inventory i on i.id=pi.inv_id
+group by p.id;
+where p.id=1
+
+
+
+
+update inventory set stock = stock - 2 where id=1;
+update inventory set stock = stock - 2 where id=2;
+update inventory set stock = stock - 2 where id=3;
+update inventory set stock = stock - 1 where id=6;
+commit;
+
+
+create table ProductInventory (id int auto_increment, prd_id int, inv_id int, amount_of int, primary key(id), foreign key(prd_id) references product(id), foreign key(inv_id) references inventory(id));
+s
+
+insert into ProductInventory(prd_id, inv_id, amount_of) values("1","6","1");
+insert into ProductInventory(prd_id, inv_id, amount_of) values("2","6","1");
+insert into ProductInventory(prd_id, inv_id, amount_of) values("3","6","1");
+
+SET 'auto.offset.reset' = 'earliest';
+
+
+CREATE SOURCE CONNECTOR inventory_reader WITH (
+    'connector.class' = 'io.debezium.connector.mysql.MySqlConnector',
+    'database.hostname' = 'mysql',
+    'database.port' = '3306',
+    'database.user' = 'example-user',
+    'database.password' = 'example-pw',
+    'database.allowPublicKeyRetrieval' = 'true',
+    'database.server.id' = '184053',
+    'database.server.name' = 'warehouse-db',
+    'database.whitelist' = 'warehouse',
+    'database.history.kafka.bootstrap.servers' = 'broker:9092',
+    'database.history.kafka.topic' = 'warehouse',
+    'table.whitelist' = 'warehouse.inventory',
+    'include.schema.changes' = 'false'
+);
+
+CREATE SOURCE CONNECTOR product_reader WITH (
+    'connector.class' = 'io.debezium.connector.mysql.MySqlConnector',
+    'database.hostname' = 'mysql',
+    'database.port' = '3306',
+    'database.user' = 'example-user',
+    'database.password' = 'example-pw',
+    'database.allowPublicKeyRetrieval' = 'true',
+    'database.server.id' = '184054',
+    'database.server.name' = 'warehouse-db',
+    'database.whitelist' = 'warehouse',
+    'database.history.kafka.bootstrap.servers' = 'broker:9092',
+    'database.history.kafka.topic' = 'warehouse',
+    'table.whitelist' = 'warehouse.product',
+    'include.schema.changes' = 'false'
+);
+
+CREATE SOURCE CONNECTOR product_inventory_reader WITH (
+    'connector.class' = 'io.debezium.connector.mysql.MySqlConnector',
+    'database.hostname' = 'mysql',
+    'database.port' = '3306',
+    'database.user' = 'example-user',
+    'database.password' = 'example-pw',
+    'database.allowPublicKeyRetrieval' = 'true',
+    'database.server.id' = '184055',
+    'database.server.name' = 'warehouse-db',
+    'database.whitelist' = 'warehouse',
+    'database.history.kafka.bootstrap.servers' = 'broker:9092',
+    'database.history.kafka.topic' = 'warehouse',
+    'table.whitelist' = 'warehouse.ProductInventory',
+    'include.schema.changes' = 'false'
+);
+
+CREATE SINK CONNECTOR test_writer WITH (
+    'connector.class' = 'io.confluent.connect.jdbc.JdbcSinkConnector',
+    'connection.url' = 'jdbc:mysql://mysql/warehouse',
+    'topics' = 'test01',
+    'connection.user' = 'example-user',
+    'connection.password' = 'example-pw',
+    'auto.create' = true,
+    'auto.evolve' = true,
+    'insert.mode' = 'upsert',
+    'pk.mode' = 'record_value',
+    'pk.fields' = 'ID'
+);
+
+CREATE SINK CONNECTOR inventory_writer WITH (
+    'connector.class' = 'io.confluent.connect.jdbc.JdbcSinkConnector',
+    'connection.url' = 'jdbc:mysql://mysql/warehouse',
+    'topics' = 'PRODUCTINVENTORYENRICHED',
+    'connection.user' = 'example-user',
+    'connection.password' = 'example-pw',
+    'auto.create' = true,
+    'auto.evolve' = true,
+    'insert.mode' = 'upsert',
+    'pk.mode' = 'record_value',
+    'pk.fields' = 'ID'
+);
+
+CREATE STREAM TEST01 (ID INT,COL1 INT, COL2 VARCHAR)
+  WITH (KAFKA_TOPIC='test01', PARTITIONS=1, VALUE_FORMAT='AVRO');
+
+INSERT INTO TEST01 (ID, COL1, COL2) VALUES (1, 1,'FOO');
+INSERT INTO TEST01 (ID, COL1, COL2) VALUES (2, 2,'BAR');
+INSERT INTO TEST01 (ID, COL1, COL2) VALUES (3, 3,'Niru');
+
+CREATE STREAM inventory WITH (
+    kafka_topic = 'warehouse-db.warehouse.inventory',
+    value_format = 'avro'
+);
+
+CREATE STREAM inventory_stm AS
+  SELECT after->id,after->name,after->stock FROM inventory
+
+CREATE STREAM product WITH (
+    kafka_topic = 'warehouse-db.warehouse.product',
+    value_format = 'avro'
+);
+
+CREATE STREAM ProductInventory WITH (
+    kafka_topic = 'warehouse-db.warehouse.ProductInventory',
+    value_format = 'avro'
+);
+
+create stream ProductInventoryEnriched as 
+  select ROWKEY, 
+        pi.after->id as id, 
+        pi.after->prd_id as productId, 
+        i.after->id as inventoryId,
+        pi.after->amount_of as amount_of, 
+        i.after->stock as stock,
+        (i.after->stock/pi.after->amount_of) as can_make
+  from ProductInventory pi 
+  inner join inventory i 
+  WITHIN 7 days
+  on i.after->id = pi.after->inv_id
+  emit changes;
+
+create table ProductInventoryEnriched_tbl as
+  select id as id,
+         latest_by_offset(productId) as productId,
+         latest_by_offset(inventoryId) as inventoryId,
+         latest_by_offset(amount_of) as amount_of,
+         latest_by_offset(stock) as stock,
+         latest_by_offset(can_make) as can_make
+  from ProductInventoryEnriched
+  group by id
+  emit changes;
+
+create stream ProductInventoryEnriched_tbl_4 with (
+  kafka_topic = 'PRODUCTINVENTORYENRICHED_TBL'
+)
+
+create stream ProductInventoryEnriched_tbl_stm with (
+  kafka_topic = 'PRODUCTINVENTORYENRICHED_TBL_2'
+  value_format = 'avro'
+)
+
+create table product_stock_normalize as 
+  select productid,inventoryid, latest_by_offset(can_make) as can_make from ProductInventoryEnriched group by productid,inventoryid emit changes;
+
+create table product_stock_tbl as
+  select productId, min(can_make) as stock
+  from ProductInventoryEnriched_tbl
+  group by productId
+  emit changes;
+
+CREATE STREAM product_inventory_normalized_stm AS
+  select after->id as id,
+         after->prd_id as prd_id,
+         after->inv_id as inv_id,
+         after->amount_of as amount_of
+  from ProductInventory
+  emit changes;
+
+CREATE STREAM product_inventory_stm (
+  id int,
+  prd_id int,
+  inv_id int,
+  amount_of int
+) with (
+  kafka_topic = 'PRODUCT_INVENTORY_NORMALIZED_STM',
+  value_format = 'avro'
+)
+
+create stream product_inventory_enriched_stm as 
+  select 
+
+
+CREATE TABLE product_tbl AS
+  select after->id as id,
+         latest_by_offset(after->name) as name
+  from product
+  group by after->id
+  emit changes;
+
+CREATE TABLE inventory_tbl_1 AS
+    SELECT after->id AS id,
+           latest_by_offset(after->name) AS name
+           latest_by_offset(after->stock) AS stock
+    FROM inventory
+    GROUP BY after->id
+    EMIT CHANGES;
+    
+CREATE TABLE product_inventory_tbl AS
+  select after->id as id,
+         latest_by_offset(after->prd_id) as prd_id,
+         latest_by_offset(after->inv_id) as inv_id,
+         latest_by_offset(after->amount_of) as amount_of
+  from ProductInventory
+  inner join 
+  group by after->id
+  emit changes;
+
+create table product_inventory_test (
+
+) with (
+  kafka_topic = 'PRODUCT_INVENTORY_TBL',
+  value_format = 'avro'
+)
+
+CREATE TABLE product_enriched_tbl AS
+  select pi.id,pi.prd_id,p.name,pi.inv_id,pi.amount_of
+  from product_inventory_tbl pi
+  inner join product_tbl p on p.id = pi.prd_id
+  emit changes;
+
+CREATE STREAM inventory_stm_1 AS
+  select id as id,
+        latest_by_offset(name) as name,
+        latest_by_offset(stock) as stock
+  from inventory_stm
+  group by id
+  emit changes;
+
+
+CREATE STREAM product_stm AS
+    select after->id as id,
+           after->name as name
+    from product
+    emit changes;
+
+CREATE STREAM product_inventory_stm AS
+  select after->id as id,
+         after->prd_id as prd_id,
+         after->inv_id as inv_id,
+         after->amount_of as amount_of
+  from ProductInventory
+  emit changes;
+
+create stream product_enriched_stm as
+  select pi.prd_id as id, p.name as name, pi.inv_id as inv_id, floor(i.stock/pi.amount_of) as prdStock from product_inventory_stm pi
+  left join product_stm p
+  WITHIN 7 DAYS
+  on p.id=pi.prd_id
+  left join inventory_stm i
+  WITHIN 7 DAYS
+  on i.id=pi.inv_id
+  emit changes;
+
+create table product_enriched_stm_3 as
+    select id, inv_id, latest_by_offset(prdStock) as prdStock
+    from product_enriched_stm
+    group by id, inv_id
+    emit changes;
+
+create table product_stock_enriched_tbl as
+  select id as id, min(latest_by_offset(prdStock)) as prdStock
+  from product_enriched_stm
+  group by id
+  emit changes;
+
+
+
+
+  select name, min(prdStock) from (
+  select pi.prd_id as id, p.name as name, floor(i.stock/pi.amount_of) as prdStock from ProductInventory pi 
+  left join product p on p.id = pi.prd_id
+  left join inventory i on i.id = pi.inv_id
+) as temp_build group by id
+-----------------------------------------------------
+
+CREATE TABLE inventory_view AS
+    SELECT after->name AS name,
+           count_distinct(after->stock) AS stock
+    FROM inventory
+    GROUP BY after->name
+    EMIT CHANGES;
+
+CREATE STREAM inventory_stm AS
+    select after->id as id,
+           after->name as name,
+           after->stock as stock
+    from inventory
+    emit changes;
+
+
+
+CREATE TABLE inventory_tbl (
+  id bigint primary key,
+  name varchar,
+  stock bigint
+) WITH (
+  kafka_topic = 'INVENTORY_STM',
+  value_format = 'avro'
+)
+
+CREATE TABLE product_tbl (
+  id bigint,
+  name varchar,
+  inv_id bigint key
+) WITH (
+  kafka_topic = 'PRODUCT_STM',
+  value_format = 'avro'
+);
+
+CREATE STREAM product_inventory_stm AS
+  select p.id as id,
+         p.name as name,
+         i.id as inv_id,
+         i.name as inv_name,
+         i.stock as stock
+  from product_stm p
+  inner join inventory_stm i
+  within 1 days
+  on i.id = p.inv_id
+  EMIT CHANGES;
+
+create table product_stm_tbl as select id, name, inv_id from product_stm
+
+CREATE TABLE product_inventory_view AS
+    select rowkey as id,
+           p.id as id,
+           p.name as name,
+           v.name as inv_name
+    from product_stm p
+    inner join inventory_stm v on v.id = p.inv_id
+    emit changes;
+
+
+CREATE TABLE support_view AS
+    SELECT after->name AS name,
+           count_distinct(after->reason) AS distinct_reasons,
+           latest_by_offset(after->reason) AS last_reason
+    FROM calls
+    GROUP BY after->name
+    EMIT CHANGES;
+
+create stream product_can_make with
+(
+  kafka_topic='enriched_product',
+  value_format='avro'
+) as
+select productId,can_make from ProductInventoryEnriched_tbl
+
+
+CREATE TABLE album (ID INT PRIMARY KEY, title VARCHAR, artist VARCHAR, genre VARCHAR)
+    WITH (kafka_topic='album', partitions=1, value_format='avro');
+INSERT INTO album (id, title, artist, genre) VALUES (5, 'Physical Graffiti', 'Led Zeppelin', 'Rock');
+INSERT INTO album (id, title, artist, genre) VALUES (6, 'Highway to Hell', 'AC/DC', 'Rock');
+INSERT INTO album (id, title, artist, genre) VALUES (7, 'Radio', 'LL Cool J', 'Hip hop');
+INSERT INTO album (id, title, artist, genre) VALUES (8, 'King of Rock to Hell', 'Run-D.M.C', 'Rap rock');
+
+
+CREATE TABLE track_purchase (ID INT PRIMARY KEY, song_title VARCHAR, album_id int, price double)
+    WITH (kafka_topic='track_purchase', partitions=1, value_format='avro');
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (100,'Houses Of The Holy',5,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (101,'King Of Rock',8,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (102,'Shot Down In Flames',6,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (103,'Rock The Bells',7,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (104,'Can You Rock It Like This',8,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (105,'Highway To Hell',6,0.99);
+INSERT INTO track_purchase (id, song_title, album_id, price) VALUES (106,'Kashmir',5,0.99);
+
+
+select (cast(a.id as varchar) + '-' + cast(t.id as varchar)) as id,
+       a.artist as artist,
+       a.genre as genre
+from album a
+inner join track_purchase t
+on a.id=t.album_id
+
+--------------------
+product
+--------------------
+productid
+inventoryid
+amount_of
