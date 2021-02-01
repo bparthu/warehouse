@@ -1,10 +1,5 @@
-import { ClassMap } from "./interface"
-import Inventory from "./model/Inventory"
-import Product from "./model/Product"
+import { Upsertable, Type } from "./interface"
 
-const initialize = (): Promise<ClassMap> => Promise.resolve({
-  inventory: new Inventory(),
-  products: new Product()
-})
+const initialize = (ClassRef: Type<Upsertable>): Promise<Upsertable> => Promise.resolve(new ClassRef())
 
 export default initialize

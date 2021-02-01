@@ -2,15 +2,17 @@ import Inventory from "./model/Inventory"
 import Product from "./model/Product"
 import { ConfigMap } from "./interface"
 
-const seed_file_map: ConfigMap = {
+const configMap: ConfigMap = {
   inventory: {
     filePath: `${process.cwd()}/seed_files/inventory.json`,
-    jsonPath: "inventory.*"
+    jsonPath: "inventory.*",
+    ClassRef: Inventory
   },
   products: {
     filePath: `${process.cwd()}/seed_files/products.json`,
-    jsonPath: "products.*"
+    jsonPath: "products.*",
+    ClassRef: Product
   }
 }
 
-export { seed_file_map }
+export { configMap }

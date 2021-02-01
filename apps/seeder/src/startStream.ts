@@ -1,15 +1,18 @@
 import { parse } from "JSONStream"
-import { mapSync } from "event-stream"
-import { ClassMap} from "./interface"
+import { mapSync, map } from "event-stream"
+import { Upsertable } from "./interface"
 import { createReadStream } from "fs"
+import { resolve } from "path"
 
-const startStream = (filePath: string, jsonPath: string) => (entity: ClassMap) => {
+const startStream = (filePath: string, jsonPath: string) => (operator: Upsertable) => {
+  operator.upsert()
   createReadStream(filePath)
   .pipe(parse(jsonPath))
-  .pipe(mapSync((row) => {
-    console.log(row)
-    return row
+  .pipe(map(async (row, callback) => {
+    let test = await Promise.resolve(row)
+    callback(null, test)
   }))
+  .pipe(mapSync(console.log))
 }
 
 export default startStream
