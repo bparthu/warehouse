@@ -1,6 +1,6 @@
 import {isSeedTypeValid} from "../src/validate"
 
-describe('CLI nput validation', () => {
+describe('CLI input validation', () => {
     it('return true, when input is of valid type', () => {
         expect(isSeedTypeValid("inventory")).toBe(true)
         expect(isSeedTypeValid("products")).toBe(true)
