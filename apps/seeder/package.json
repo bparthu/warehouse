@@ -1,0 +1,30 @@
+{
+  "name": "seeder",
+  "version": "0.0.0",
+  "description": "Loads init data into inventory / product table",
+  "author": "Parthasarathy B <b.paarthu@gmail.com>",
+  "homepage": "",
+  "license": "ISC",
+  "main": "lib/index.js",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git@github.com-bparthu:bparthu/warehouse.git"
+  },
+  "scripts": {
+    "test": "jest --verbose --config ../../jest.config.json --rootDir ./",
+    "start-local": "ts-node src/index.ts",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/event-stream": "^3.3.34",
+    "JSONStream": "^1.3.5",
+    "event-stream": "^4.0.1"
+  }
+}
