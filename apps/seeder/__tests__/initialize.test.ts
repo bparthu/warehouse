@@ -1,8 +1,8 @@
 import { Pool } from "mysql2";
+import { Database } from "@warehouse/dbclient";
 import initialize from "../src/initialize";
 import Inventory from "../src/model/Inventory";
 import Product from "../src/model/Product";
-import Database from "../src/DBClientLibrary/model/Database";
 import { mock } from "jest-mock-extended";
 
 describe("app init", () => {

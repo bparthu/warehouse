@@ -3,8 +3,7 @@ import { isSeedTypeValid } from "./validate";
 import initialize from "./initialize";
 import { AllowedInput } from "./interface";
 import startStream from "./startStream";
-import initializeDBClient from "./DBClientLibrary/client";
-import Database from "./DBClientLibrary/model/Database";
+import { initializeDBClient, Database } from "@warehouse/dbclient";
 
 const seed_type = process.argv[2];
 if (!isSeedTypeValid(seed_type)) {

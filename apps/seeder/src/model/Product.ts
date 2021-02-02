@@ -1,5 +1,5 @@
 import { Upsertable } from "../interface";
-import Database from "../DBClientLibrary/model/Database";
+import { Database } from "@warehouse/dbclient";
 
 export default class Product implements Upsertable {
   dbInstance: Database;

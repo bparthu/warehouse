@@ -1,5 +1,5 @@
+import { Database } from "@warehouse/dbclient";
 import { Upsertable, Type } from "./interface";
-import Database from "./DBClientLibrary/model/Database";
 
 const initialize = (
   dbInstance: Database,
