@@ -1,24 +1,25 @@
 import { Upsertable, Rows, InventoryRow } from "../interface";
-import { Database } from "@warehouse/dbclient";
+import { Database, PoolConnection } from "@warehouse/dbclient";
 
 export default class Inventory implements Upsertable {
   dbInstance: Database;
+  conn: PoolConnection;
 
-  constructor(dbInstance: Database) {
+  constructor(dbInstance: Database, conn: PoolConnection) {
     this.dbInstance = dbInstance;
+    this.conn = conn;
   }
 
-  async init(): Promise<Upsertable> {
-    await this.dbInstance.execute("createTableInventory", []);
-    return this;
+  async initTable(): Promise<void> {
+    await this.dbInstance.execute("createTableInventory", [], this.conn);
   }
 
   async upsert(row: InventoryRow): Promise<Rows> {
-    const [rows] = await this.dbInstance.execute("upsertInventory", [
-      parseInt(row.art_id),
-      row.name,
-      parseInt(row.stock),
-    ]);
+    const [rows] = await this.dbInstance.execute(
+      "upsertInventory",
+      [parseInt(row.art_id), row.name, parseInt(row.stock)],
+      this.conn
+    );
     return rows;
   }
 }

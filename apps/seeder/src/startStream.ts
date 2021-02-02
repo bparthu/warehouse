@@ -21,11 +21,11 @@ const startStream = (filePath: string, jsonPath: string) => (
     )
     .on("error", function (err) {
       console.log(`Error while processing stream - ${err}`);
-      operator.dbInstance.closeConnection();
+      operator.dbInstance.closeConnectionPool();
     })
     .on("end", function () {
       console.log("all records processed");
-      operator.dbInstance.closeConnection();
+      operator.dbInstance.closeConnectionPool();
     });
 };
 

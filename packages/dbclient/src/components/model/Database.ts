@@ -1,4 +1,4 @@
-import { Pool } from "mysql2";
+import { Pool, PoolConnection } from "mysql2/promise";
 
 class Database {
   pool: Pool;
@@ -12,12 +12,19 @@ class Database {
     return this.queryMap[queryName];
   }
 
-  async execute(queryName: string, inputs: any[]) {
-    const query = this.queryMap[queryName];
-    return this.pool.promise().query(query, inputs);
+  async getConnection() {
+    return this.pool.getConnection();
   }
 
-  closeConnection() {
+  async execute(queryName: string, inputs: any[], conn?: PoolConnection) {
+    if (!conn) {
+      conn = await this.getConnection();
+    }
+    const query = this.queryMap[queryName];
+    return conn.query(query, inputs);
+  }
+
+  closeConnectionPool() {
     this.pool.end();
   }
 }

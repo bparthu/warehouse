@@ -1,6 +1,7 @@
+import { DBConfig } from "@warehouse/dbclient";
 import Inventory from "./model/Inventory";
 import Product from "./model/Product";
-import { ConfigMap, DBConfig } from "./interface";
+import { ConfigMap } from "./interface";
 
 /*
  Optimizations - Extract connection configs from env vars / secrets

@@ -4,6 +4,7 @@ import {
   OkPacket,
   ResultSetHeader,
   RowDataPacket,
+  PoolConnection,
 } from "@warehouse/dbclient";
 
 // generic type to represent any class
@@ -13,15 +14,11 @@ export interface Type<T> extends Function {
 
 // define interface to implement
 export interface Upsertable {
+  conn: PoolConnection;
   dbInstance: Database;
-  init: () => Promise<Upsertable>;
+  initTable: () => Promise<void>;
   upsert: (row: any) => Promise<Rows>;
 }
-
-export type DBConfig = {
-  connPoolOptions: PoolOptions;
-  sqlFilesPath: string;
-};
 
 // type to represent allowed input type
 export type AllowedInput = "inventory" | "products";

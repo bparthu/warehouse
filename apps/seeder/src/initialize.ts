@@ -1,15 +1,22 @@
-import { Database } from "@warehouse/dbclient";
+import { Database, PoolConnection } from "@warehouse/dbclient";
 import { Upsertable, Type } from "./interface";
 
-const initialize = (
-  dbInstance: Database,
-  ClassRef: Type<Upsertable>
-): Promise<Upsertable> => {
-  const instance = new ClassRef(dbInstance);
-  return instance.init().catch((err) => {
-    dbInstance.closeConnection();
-    throw err;
+const initializeApp = (ClassRef: Type<Upsertable>) => (
+  dbInstance: Database
+) => {
+  return dbInstance.getConnection().then((conn) => {
+    return new ClassRef(dbInstance, conn);
   });
 };
 
-export default initialize;
+const initializeTable = (upsertableInstance: Upsertable) => {
+  return upsertableInstance
+    .initTable()
+    .then(() => upsertableInstance)
+    .catch((err) => {
+      upsertableInstance.dbInstance.closeConnectionPool();
+      throw err;
+    });
+};
+
+export { initializeApp, initializeTable };
