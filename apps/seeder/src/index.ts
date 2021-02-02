@@ -3,6 +3,8 @@ import { isSeedTypeValid } from "./validate";
 import initialize from "./initialize";
 import { AllowedInput } from "./interface";
 import startStream from "./startStream";
+import initializeDBClient from "./DBClientLibrary/client";
+import Database from "./DBClientLibrary/model/Database";
 
 const seed_type = process.argv[2];
 if (!isSeedTypeValid(seed_type)) {
@@ -16,4 +18,6 @@ const { filePath, jsonPath, ClassRef } = configMap[seed_type as AllowedInput];
 // .then((dbClient) => (initialize(dbClient, ClassRef)))
 // .then(startStream(filePath, jsonPath))
 
-initialize(ClassRef).then(startStream(filePath, jsonPath));
+initializeDBClient(dbConfig.connPoolOptions, dbConfig.sqlFilesPath)
+  .then((dbInstance: Database) => initialize(dbInstance, ClassRef))
+  .then(startStream(filePath, jsonPath));

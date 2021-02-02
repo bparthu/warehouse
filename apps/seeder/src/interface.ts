@@ -1,3 +1,5 @@
+import { PoolOptions } from "mysql2";
+
 // generic type to represent any class
 export interface Type<T> extends Function {
   new (...args: any[]): T;
@@ -9,6 +11,7 @@ export interface Upsertable {
 }
 
 export type DBConfig = {
+  connPoolOptions: PoolOptions;
   sqlFilesPath: string;
 };
 

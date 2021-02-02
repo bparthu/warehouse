@@ -1,4 +1,4 @@
-import { createPool, PoolOptions, Pool } from "mysql2";
+import { createPool, PoolOptions } from "mysql2";
 import Database from "./model/Database";
 import { createQueryMap } from "./components/createQueryMap";
 

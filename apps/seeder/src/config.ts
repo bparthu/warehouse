@@ -2,7 +2,20 @@ import Inventory from "./model/Inventory";
 import Product from "./model/Product";
 import { ConfigMap, DBConfig } from "./interface";
 
+/*
+ Optimizations - Extract connection configs from env vars / secrets
+ for the demo purpose, i am leaving the configs as is
+*/
 const dbConfig: DBConfig = {
+  connPoolOptions: {
+    host: "localhost",
+    user: "root",
+    password: "sql-pw",
+    database: "warehouse",
+    waitForConnections: true,
+    connectionLimit: 10,
+    queueLimit: 0,
+  },
   sqlFilesPath: `${__dirname}/sql/`,
 };
 
