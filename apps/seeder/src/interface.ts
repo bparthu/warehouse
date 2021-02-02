@@ -1,4 +1,4 @@
-import { PoolOptions } from "mysql2";
+import { PoolOptions } from "@warehouse/dbclient";
 
 // generic type to represent any class
 export interface Type<T> extends Function {
