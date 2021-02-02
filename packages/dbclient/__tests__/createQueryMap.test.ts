@@ -10,10 +10,10 @@ jest.mock("fs", () => ({
 describe("createQueryMap", () => {
   it("should load sql queries into memory", async () => {
     const actual = await createQueryMap("");
-    const expected = [
-      { file1: "some query statements" },
-      { file2: "some query statements" },
-    ];
+    const expected = {
+      file1: "some query statements",
+      file2: "some query statements",
+    };
     expect(actual).toStrictEqual(expected);
   });
 });

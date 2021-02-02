@@ -1,5 +1,4 @@
-import { Pool } from "mysql2";
-import { Database } from "@warehouse/dbclient";
+import { Database, Pool } from "@warehouse/dbclient";
 import initialize from "../src/initialize";
 import Inventory from "../src/model/Inventory";
 import Product from "../src/model/Product";

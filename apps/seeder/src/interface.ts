@@ -1,4 +1,4 @@
-import { PoolOptions } from "@warehouse/dbclient";
+import { PoolOptions, Database } from "@warehouse/dbclient";
 
 // generic type to represent any class
 export interface Type<T> extends Function {
@@ -7,6 +7,7 @@ export interface Type<T> extends Function {
 
 // define interface to implement
 export interface Upsertable {
+  dbInstance: Database;
   upsert: () => void;
 }
 
