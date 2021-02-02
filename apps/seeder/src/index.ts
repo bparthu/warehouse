@@ -13,7 +13,7 @@ if (!isSeedTypeValid(seed_type)) {
 
 const { filePath, jsonPath, ClassRef } = configMap[seed_type as AllowedInput];
 
-initializeDBClient(dbConfig.connPoolOptions, dbConfig.sqlFilesPath)
+initializeDBClient(dbConfig)
   .then((dbInstance: Database) => initialize(dbInstance, ClassRef))
   .then(startStream(filePath, jsonPath))
   .catch(console.error);

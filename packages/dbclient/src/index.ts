@@ -8,6 +8,7 @@ import {
 import initializeDBClient from "./components/initializeDBClient";
 import { createQueryMap } from "./components/createQueryMap";
 import Database from "./components/model/Database";
+import { DBConfig } from "./components/interface";
 
 export {
   initializeDBClient,
@@ -18,4 +19,5 @@ export {
   OkPacket,
   ResultSetHeader,
   RowDataPacket,
+  DBConfig,
 };

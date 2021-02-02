@@ -18,11 +18,6 @@ export interface Upsertable {
   upsert: (row: any) => Promise<Rows>;
 }
 
-export type DBConfig = {
-  connPoolOptions: PoolOptions;
-  sqlFilesPath: string;
-};
-
 // type to represent allowed input type
 export type AllowedInput = "inventory" | "products";
 
