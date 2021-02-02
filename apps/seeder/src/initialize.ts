@@ -7,7 +7,7 @@ const initialize = (
 ): Promise<Upsertable> => {
   const instance = new ClassRef(dbInstance);
   return instance.init().catch((err) => {
-    dbInstance.closeConnection();
+    dbInstance.closeConnectionPool();
     throw err;
   });
 };

@@ -21,7 +21,7 @@ class Database {
     return this.pool.query(query, inputs);
   }
 
-  closeConnection() {
+  closeConnectionPool() {
     this.pool.end();
   }
 }
