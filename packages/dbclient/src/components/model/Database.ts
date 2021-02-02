@@ -12,6 +12,10 @@ class Database {
     return this.queryMap[queryName];
   }
 
+  async getConnection() {
+    return this.pool.getConnection();
+  }
+
   async execute(queryName: string, inputs: any[]) {
     const query = this.queryMap[queryName];
     return this.pool.query(query, inputs);
