@@ -16,7 +16,6 @@ export default class Product implements Upsertable {
   }
 
   async upsert(row: ProductRow): Promise<Rows> {
-    console.log("upserting products");
     const id = createHash('md5').update(row.name.toLocaleLowerCase()).digest('hex');
     const [upsertProductRows] = await this.dbInstance.execute("upsertProduct", [id, row.name])
     const inputs = row.contain_articles.map((eachArticle) => {

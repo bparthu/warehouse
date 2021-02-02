@@ -16,6 +16,10 @@ class Database {
     const query = this.queryMap[queryName]
     return this.pool.promise().query(query, inputs)
   }
+
+  closeConnection() {
+    this.pool.end()
+  }
 }
 
 export default Database;

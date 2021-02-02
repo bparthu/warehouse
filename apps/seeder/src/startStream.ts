@@ -11,11 +11,18 @@ const startStream = (filePath: string, jsonPath: string) => (
     .pipe(parse(jsonPath))
     .pipe(
       map(async (row, callback) => {
-        const test = await operator.upsert(row);
-        callback(null, test);
+        const result = await operator.upsert(row);
+        callback(null, result);
       })
     )
-    .pipe(mapSync(console.log));
+    .on('error', function (err) {
+      console.log(`Error while processing stream - ${err}`)
+      operator.dbInstance.closeConnection()
+    })
+    .on('end', function () {
+      console.log("all records processed")
+      operator.dbInstance.closeConnection()
+    });
 };
 
 export default startStream;
