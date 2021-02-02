@@ -7,13 +7,11 @@ import { resolve } from "path";
 const startStream = (filePath: string, jsonPath: string) => (
   operator: Upsertable
 ) => {
-  operator.upsert();
-  console.log(operator.dbInstance.getQuery("upsertInventory"));
   createReadStream(filePath)
     .pipe(parse(jsonPath))
     .pipe(
       map(async (row, callback) => {
-        const test = await Promise.resolve(row);
+        const test = await operator.upsert(row);
         callback(null, test);
       })
     )

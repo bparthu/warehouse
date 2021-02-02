@@ -11,6 +11,11 @@ class Database {
   getQuery(queryName: string): string {
     return this.queryMap[queryName];
   }
+
+  async execute(queryName: string, inputs: any[]) {
+    const query = this.queryMap[queryName]
+    return this.pool.promise().query(query, inputs)
+  }
 }
 
 export default Database;

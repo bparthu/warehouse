@@ -10,7 +10,7 @@ const dbConfig: DBConfig = {
   connPoolOptions: {
     host: "localhost",
     user: "root",
-    password: "sql-pw",
+    password: "mysql-pw",
     database: "warehouse",
     waitForConnections: true,
     connectionLimit: 10,
