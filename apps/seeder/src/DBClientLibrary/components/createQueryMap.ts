@@ -9,4 +9,4 @@ const createQueryMap = async (sqlFilesPath: string) => {
   }));
 };
 
-export default createQueryMap;
+export { createQueryMap };

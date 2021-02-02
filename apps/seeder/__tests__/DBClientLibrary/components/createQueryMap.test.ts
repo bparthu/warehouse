@@ -1,4 +1,4 @@
-import createQueryMap from "../../../src/DBClientLibrary/components/createQueryMap";
+import { createQueryMap } from "../../../src/DBClientLibrary/components/createQueryMap";
 
 jest.mock("fs", () => ({
   readFileSync: () => "some query statements",

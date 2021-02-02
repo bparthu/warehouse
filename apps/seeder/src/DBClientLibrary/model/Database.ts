@@ -2,8 +2,10 @@ import { Pool } from "mysql2";
 
 class Database {
   pool: Pool;
-  constructor(pool: Pool) {
+  queryMap: any[];
+  constructor(pool: Pool, queryMap: any[]) {
     this.pool = pool;
+    this.queryMap = queryMap;
   }
 }
 

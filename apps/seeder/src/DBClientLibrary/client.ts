@@ -1,18 +1,20 @@
 import { createPool, PoolOptions, Pool } from "mysql2";
 import Database from "./model/Database";
-import { promises as fsp, readFileSync } from "fs";
-import { parse, join } from "path";
-import { pathToFileURL } from "url";
+import { createQueryMap } from "./components/createQueryMap";
 
-/*
-const initializeDBClient = async (options: PoolOptions, sqlPath: string): Promise<Database>  => {
-  
+const initializeDBClient = async (
+  options: PoolOptions,
+  sqlFilesPath: string
+): Promise<Database> => {
+  /*
     1. create connection pool
     2. load sql queries in memory
     3. create db instance and return
-  
-  const pool = createPool(options)
-  const queryMap = await createQueryMap(sqlFilesPath)
-  return new Database(pool)
-}
-*/
+  */
+
+  const pool = createPool(options);
+  const queryMap = await createQueryMap(sqlFilesPath);
+  return new Database(pool, queryMap);
+};
+
+export default initializeDBClient;
