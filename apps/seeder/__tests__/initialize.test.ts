@@ -6,7 +6,7 @@ import { mock } from "jest-mock-extended";
 
 describe("app init", () => {
   it("should initialize Upsertable", async () => {
-    const dbInstance = mock<Database>()
+    const dbInstance = mock<Database>();
     const inventory = await initialize(dbInstance, Inventory);
     const product = await initialize(dbInstance, Product);
     expect(inventory).toBeInstanceOf(Inventory);

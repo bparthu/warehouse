@@ -5,8 +5,11 @@ const initialize = (
   dbInstance: Database,
   ClassRef: Type<Upsertable>
 ): Promise<Upsertable> => {
-  const instance = new ClassRef(dbInstance)
-  return instance.init()
+  const instance = new ClassRef(dbInstance);
+  return instance.init().catch((err) => {
+    dbInstance.closeConnection();
+    throw err;
+  });
 };
 
 export default initialize;

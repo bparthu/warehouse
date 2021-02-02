@@ -13,12 +13,12 @@ class Database {
   }
 
   async execute(queryName: string, inputs: any[]) {
-    const query = this.queryMap[queryName]
-    return this.pool.promise().query(query, inputs)
+    const query = this.queryMap[queryName];
+    return this.pool.promise().query(query, inputs);
   }
 
   closeConnection() {
-    this.pool.end()
+    this.pool.end();
   }
 }
 
