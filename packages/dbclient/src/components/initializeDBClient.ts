@@ -1,4 +1,4 @@
-import { createPool, PoolOptions } from "mysql2";
+import { createPool, PoolOptions } from "mysql2/promise";
 import Database from "./model/Database";
 import { createQueryMap } from "./createQueryMap";
 

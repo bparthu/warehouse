@@ -1,4 +1,4 @@
-import { Pool } from "mysql2";
+import { Pool } from "mysql2/promise";
 
 class Database {
   pool: Pool;
@@ -14,7 +14,7 @@ class Database {
 
   async execute(queryName: string, inputs: any[]) {
     const query = this.queryMap[queryName];
-    return this.pool.promise().query(query, inputs);
+    return this.pool.query(query, inputs);
   }
 
   closeConnection() {

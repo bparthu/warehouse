@@ -1,9 +1,9 @@
-import { Pool } from "mysql2";
+import { Pool } from "mysql2/promise";
 import Database from "../src/components/model/Database";
 import initializeDBClient from "../src/components/initializeDBClient";
 import { mock } from "jest-mock-extended";
 
-jest.mock("mysql2", () => ({
+jest.mock("mysql2/promise", () => ({
   createPool: () => mock<Pool>(),
 }));
 
