@@ -1,9 +1,10 @@
 import { configMap, dbConfig } from "./config";
 import { isSeedTypeValid } from "./validate";
-import initialize from "./initialize";
+import { initializeApp, initializeTable } from "./initialize";
 import { AllowedInput } from "./interface";
 import startStream from "./startStream";
 import { initializeDBClient, Database } from "@warehouse/dbclient";
+import { runInThisContext } from "vm";
 
 const seed_type = process.argv[2];
 if (!isSeedTypeValid(seed_type)) {
@@ -14,6 +15,7 @@ if (!isSeedTypeValid(seed_type)) {
 const { filePath, jsonPath, ClassRef } = configMap[seed_type as AllowedInput];
 
 initializeDBClient(dbConfig)
-  .then((dbInstance: Database) => initialize(dbInstance, ClassRef))
+  .then(initializeApp(ClassRef))
+  .then(initializeTable)
   .then(startStream(filePath, jsonPath))
   .catch(console.error);

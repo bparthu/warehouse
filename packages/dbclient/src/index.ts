@@ -4,6 +4,7 @@ import {
   OkPacket,
   ResultSetHeader,
   RowDataPacket,
+  PoolConnection,
 } from "mysql2/promise";
 import initializeDBClient from "./components/initializeDBClient";
 import { createQueryMap } from "./components/createQueryMap";
@@ -20,4 +21,5 @@ export {
   ResultSetHeader,
   RowDataPacket,
   DBConfig,
+  PoolConnection,
 };

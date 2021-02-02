@@ -17,8 +17,8 @@ class Database {
   }
 
   async execute(queryName: string, inputs: any[], conn?: PoolConnection) {
-    if(!conn) {
-      conn = await this.getConnection()
+    if (!conn) {
+      conn = await this.getConnection();
     }
     const query = this.queryMap[queryName];
     return conn.query(query, inputs);
