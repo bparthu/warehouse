@@ -3,10 +3,13 @@
   "private": true,
   "scripts": {
     "seed": "ts-node apps/seeder/src/index.ts",
+    "seed-all": "npm run seed -- inventory && npm run seed -- products",
+    "bootstrap": "lerna bootstrap",
     "api": "ts-node apps/api/src/index.ts",
     "test": "lerna run test --stream",
     "lint-check": "lerna run lint-check",
-    "lint-fix": "lerna run lint-fix"
+    "lint-fix": "lerna run lint-fix",
+    "build": "lerna run build"
   },
   "devDependencies": {
     "@types/jest": "^26.0.20",
