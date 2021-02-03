@@ -1,0 +1,1 @@
+select min(stock-amount_of) as newStock from Inventory i inner join ProductInventory pi on pi.inv_id = i.id where pi.prd_id=?;

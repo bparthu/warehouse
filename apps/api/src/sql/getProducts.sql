@@ -1,0 +1,1 @@
+select p.id, p.name, min(floor(i.stock/pi.amount_of)) as prd_stock from Product p inner join ProductInventory pi on pi.prd_id = p.id inner join Inventory i on i.id=pi.inv_id group by p.id;

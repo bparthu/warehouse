@@ -1,0 +1,1 @@
+select i.id,i.stock from Inventory i where id in (select inv_id from ProductInventory where prd_id=?) for update;

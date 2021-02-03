@@ -3,6 +3,7 @@
   "private": true,
   "scripts": {
     "seed": "ts-node apps/seeder/src/index.ts",
+    "api": "ts-node apps/api/src/index.ts",
     "test": "lerna run test --stream",
     "lint-check": "lerna run lint-check",
     "lint-fix": "lerna run lint-fix"

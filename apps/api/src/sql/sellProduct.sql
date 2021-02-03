@@ -1,0 +1,1 @@
+update Inventory i inner join ProductInventory pi on pi.inv_id = i.id set stock = i.stock - pi.amount_of where pi.prd_id=?;

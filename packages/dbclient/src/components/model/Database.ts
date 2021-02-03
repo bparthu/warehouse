@@ -17,11 +17,12 @@ class Database {
   }
 
   async execute(queryName: string, inputs: any[], conn?: PoolConnection) {
-    if (!conn) {
-      conn = await this.getConnection();
+    let queryCtx: Pool | PoolConnection = this.pool
+    if (conn) {
+      queryCtx = conn;
     }
     const query = this.queryMap[queryName];
-    return conn.query(query, inputs);
+    return queryCtx.query(query, inputs);
   }
 
   closeConnectionPool() {
