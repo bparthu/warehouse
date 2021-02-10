@@ -26,7 +26,7 @@ export default class Product {
       await this.dbInstance.execute("lockInventoryRows", [id], conn)
       // is product available ?
       const [row] = ((await this.dbInstance.execute("isProductAvailable", [id], conn)) as any) as [StockAvailibility[]]
-      if(row[0].newStock > 0) {
+      if(row[0].newStock >= 0) {
         // sell product
         await this.dbInstance.execute("sellProduct", [id], conn)
         // commit transaction
