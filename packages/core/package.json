@@ -1,0 +1,28 @@
+{
+  "name": "@warehouse/core",
+  "version": "0.0.0",
+  "description": "Contains data models managed by ORM",
+  "author": "Parthasarathy Bakthavatsalam <b.paarthu@gmail.com>",
+  "homepage": "https://github.com/bparthu/warehouse#readme",
+  "license": "ISC",
+  "main": "lib/core.js",
+  "typings": "lib/core.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bparthu/warehouse.git"
+  },
+  "scripts": {
+    "tsc": "tsc",
+    "test": "echo \"Error: run tests from root\" && exit 1"
+  },
+  "bugs": {
+    "url": "https://github.com/bparthu/warehouse/issues"
+  }
+}
