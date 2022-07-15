@@ -21,7 +21,7 @@
   "scripts": {
     "tsc": "tsc",
     "start-dev": "ts-node ./src/api.ts",
-    "test": "echo \"Error: run tests from root\" && exit 1"
+    "test": "jest --verbose --config ../../jest.config.json --rootDir ./"
   },
   "bugs": {
     "url": "https://github.com/bparthu/warehouse/issues"

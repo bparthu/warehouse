@@ -1,3 +1,3 @@
-const test = () => console.log("works and updated")
+const test = () => "works"
 
 export default test
