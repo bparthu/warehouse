@@ -20,9 +20,16 @@
   },
   "scripts": {
     "tsc": "tsc",
+    "start-dev": "ts-node ./src/api.ts",
     "test": "echo \"Error: run tests from root\" && exit 1"
   },
   "bugs": {
     "url": "https://github.com/bparthu/warehouse/issues"
+  },
+  "dependencies": {
+    "@warehouse/core": "^0.0.0"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.1"
   }
 }

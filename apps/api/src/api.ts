@@ -1,1 +1,3 @@
-console.log("works")
+import test from "@warehouse/core"
+
+test()
