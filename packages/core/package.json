@@ -22,9 +22,20 @@
     "tsc": "tsc",
     "lint-check": "eslint ./src '**/*.ts'",
     "lint-fix": "eslint ./src '**/*.ts' --fix",
+    "debug": "ts-node ./src/core.ts",
     "test": "jest --verbose --config ../../jest.config.json --rootDir ./"
   },
   "bugs": {
     "url": "https://github.com/bparthu/warehouse/issues"
+  },
+  "devDependencies": {
+    "@types/node": "^18.0.4",
+    "@types/validator": "^13.7.4"
+  },
+  "dependencies": {
+    "mysql2": "^2.3.3",
+    "reflect-metadata": "^0.1.13",
+    "sequelize": "^6.21.3",
+    "sequelize-typescript": "^2.1.3"
   }
 }
