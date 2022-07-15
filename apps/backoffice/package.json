@@ -1,0 +1,33 @@
+{
+  "name": "@warehouse/backoffice",
+  "version": "0.0.0",
+  "description": "Seeds database with products and inventories",
+  "author": "Parthasarathy Bakthavatsalam <b.paarthu@gmail.com>",
+  "homepage": "https://github.com/bparthu/warehouse#readme",
+  "license": "ISC",
+  "main": "lib/backoffice.js",
+  "typings": "lib/backoffice.d.ts",
+  "directories": {
+    "lib": "lib",
+    "test": "__tests__"
+  },
+  "files": [
+    "lib"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/bparthu/warehouse.git"
+  },
+  "scripts": {
+    "debug": "ts-node ./src/backoffice.ts",
+    "lint-check": "eslint ./src '**/*.ts'",
+    "lint-fix": "eslint ./src '**/*.ts' --fix",
+    "test": "jest --verbose --config ../../jest.config.json --rootDir ./"
+  },
+  "bugs": {
+    "url": "https://github.com/bparthu/warehouse/issues"
+  },
+  "dependencies": {
+    "@warehouse/core": "^0.0.0"
+  }
+}

@@ -1,3 +1,1 @@
-import test from "@warehouse/core";
-
-test();
+console.log("works");

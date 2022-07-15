@@ -1,21 +1,20 @@
-import { Table, Column, Model, BelongsToMany } from 'sequelize-typescript'
-import Product from "./Product"
-import ProductInventory from "./ProductInventory"
+import { Table, Column, Model, BelongsToMany } from "sequelize-typescript";
+import Product from "./Product";
+import ProductInventory from "./ProductInventory";
 
 @Table
 class Inventory extends Model {
-  @Column({primaryKey: true})
-  id: number
+  @Column({ primaryKey: true })
+  id: number;
 
   @Column
-  name: string
+  name: string;
 
   @Column
-  stock: number
+  stock: number;
 
   @BelongsToMany(() => Product, () => ProductInventory)
-  products: Product[]
-
+  products: Product[];
 }
 
-export default Inventory
+export default Inventory;

@@ -1,24 +1,26 @@
-import { Table, Column, Model, ForeignKey } from 'sequelize-typescript'
-import Inventory from "./Inventory"
-import Product from "./Product"
+import { Table, Column, Model, ForeignKey } from "sequelize-typescript";
+import Inventory from "./Inventory";
+import Product from "./Product";
 
 @Table({
-  indexes: [{
-    fields: ['inventoryId', 'productId'],
-    unique: true
-  }],
+  indexes: [
+    {
+      fields: ["inventoryId", "productId"],
+      unique: true,
+    },
+  ],
 })
 class ProductInventory extends Model {
   @ForeignKey(() => Inventory)
   @Column
-  inventoryId: number
+  inventoryId: number;
 
   @ForeignKey(() => Product)
   @Column
-  productId: string
+  productId: string;
 
   @Column
-  amountOf: number
+  amountOf: number;
 }
 
-export default ProductInventory
+export default ProductInventory;

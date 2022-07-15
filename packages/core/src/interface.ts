@@ -1,5 +1,5 @@
 export interface WarehouseConnectOptions {
-  database: string
-  username: string
-  password: string
+  database: string;
+  username: string;
+  password: string;
 }
