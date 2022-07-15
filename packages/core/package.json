@@ -20,6 +20,8 @@
   },
   "scripts": {
     "tsc": "tsc",
+    "lint-check": "eslint ./src '**/*.ts'",
+    "lint-fix": "eslint ./src '**/*.ts' --fix",
     "test": "jest --verbose --config ../../jest.config.json --rootDir ./"
   },
   "bugs": {

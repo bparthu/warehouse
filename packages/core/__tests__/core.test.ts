@@ -1,7 +1,7 @@
-import core from "../src/core"
+import core from "../src/core";
 
-describe('core', () => {
-    it('needs tests', () => {
-        expect(core()).toEqual("works")
-    });
+describe("core", () => {
+  it("needs tests", () => {
+    expect(core()).toEqual("works");
+  });
 });

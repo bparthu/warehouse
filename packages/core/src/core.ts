@@ -1,3 +1,3 @@
-const test = () => "works"
+const test = () => "works";
 
-export default test
+export default test;

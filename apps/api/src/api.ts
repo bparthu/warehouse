@@ -1,3 +1,3 @@
-import test from "@warehouse/core"
+import test from "@warehouse/core";
 
-test()
+test();
