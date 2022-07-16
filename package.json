@@ -6,7 +6,7 @@
     "lint-check": "lerna run lint-check",
     "lint-fix": "lerna run lint-fix",
     "test": "lerna run test --stream",
-    "seed": "ts-node apps/backoffice/src/backoffice.ts"
+    "seed": "ts-node apps/backoffice/src/index.ts"
   },
   "devDependencies": {
     "@types/jest": "^28.1.5",

@@ -5,8 +5,8 @@
   "author": "Parthasarathy Bakthavatsalam <b.paarthu@gmail.com>",
   "homepage": "https://github.com/bparthu/warehouse#readme",
   "license": "ISC",
-  "main": "lib/core.js",
-  "typings": "lib/core.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -22,7 +22,7 @@
     "tsc": "tsc",
     "lint-check": "eslint ./src '**/*.ts'",
     "lint-fix": "eslint ./src '**/*.ts' --fix",
-    "debug": "ts-node ./src/core.ts",
+    "debug": "ts-node ./src/index.ts",
     "test": "jest --verbose --config ../../jest.config.json --rootDir ./"
   },
   "bugs": {

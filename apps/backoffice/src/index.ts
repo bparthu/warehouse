@@ -9,6 +9,11 @@ connectToDB({
 })
   .then(syncTables(false, false))
   .then(startSeeding(config.seederPath))
+  .then(({ inventoriesCount, productsCount, productinventoriesCount }) => {
+    console.log("successfully seeded", {
+      inventoriesCount, productsCount, productinventoriesCount
+    })
+  })
   .catch((err) => {
     console.log(err);
   })

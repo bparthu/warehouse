@@ -5,8 +5,8 @@
   "author": "Parthasarathy Bakthavatsalam <b.paarthu@gmail.com>",
   "homepage": "https://github.com/bparthu/warehouse#readme",
   "license": "ISC",
-  "main": "lib/backoffice.js",
-  "typings": "lib/backoffice.d.ts",
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "directories": {
     "lib": "lib",
     "test": "__tests__"
@@ -20,7 +20,7 @@
   },
   "scripts": {
     "tsc": "tsc",
-    "debug": "ts-node ./src/backoffice.ts",
+    "debug": "ts-node ./src/index.ts",
     "lint-check": "eslint ./src '**/*.ts'",
     "lint-fix": "eslint ./src '**/*.ts' --fix",
     "test": "jest --verbose --config ../../jest.config.json --rootDir ./"

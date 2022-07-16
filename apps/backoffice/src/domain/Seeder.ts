@@ -64,7 +64,7 @@ const startSeeding = (seederPath: string) => async (conn: Sequelize) => {
   const inventories = await seedInventory(seederPath);
   const products = await seedProduct(seederPath);
   const productinventories = await seedProductInventory(seederPath);
-  return { inventories: inventories.length, products: products.length, conn };
+  return { inventoriesCount: inventories.length, productsCount: products.length, productinventoriesCount: productinventories.length, conn };
 };
 
 const closeConnection = () => async () => {
