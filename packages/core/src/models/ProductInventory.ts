@@ -11,6 +11,9 @@ import Product from "./Product";
   ],
 })
 class ProductInventory extends Model {
+  @Column({ primaryKey: true, autoIncrement: true })
+  id: number;
+
   @ForeignKey(() => Inventory)
   @Column
   inventoryId: number;

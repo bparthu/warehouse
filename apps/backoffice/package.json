@@ -19,6 +19,7 @@
     "url": "git+https://github.com/bparthu/warehouse.git"
   },
   "scripts": {
+    "tsc": "tsc",
     "debug": "ts-node ./src/backoffice.ts",
     "lint-check": "eslint ./src '**/*.ts'",
     "lint-fix": "eslint ./src '**/*.ts' --fix",
