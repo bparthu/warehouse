@@ -3,11 +3,9 @@ import {
   Product,
   ProductInventory,
   Sequelize,
-  getConnection,
 } from "@warehouse/core";
 import { InventorySeed, ProductSeed } from "../interface";
 import { getRawData, getHash } from "../helper";
-import { timeEnd } from "console";
 
 const seedInventory = async (seederPath: string) => {
   // get inventoryRawData
@@ -64,11 +62,12 @@ const startSeeding = (seederPath: string) => async (conn: Sequelize) => {
   const inventories = await seedInventory(seederPath);
   const products = await seedProduct(seederPath);
   const productinventories = await seedProductInventory(seederPath);
-  return { inventoriesCount: inventories.length, productsCount: products.length, productinventoriesCount: productinventories.length, conn };
+  return {
+    inventoriesCount: inventories.length,
+    productsCount: products.length,
+    productinventoriesCount: productinventories.length,
+    conn,
+  };
 };
 
-const closeConnection = () => async () => {
-  return getConnection().close();
-};
-
-export { startSeeding, closeConnection };
+export { startSeeding };

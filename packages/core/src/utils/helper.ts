@@ -10,9 +10,12 @@ const getConnection = () => {
 };
 
 const setConnection = (connectionInstance: Sequelize) => {
-  console.log("setting connection");
   conn = connectionInstance;
   return conn;
 };
 
-export { getConnection, setConnection };
+const closeConnection = () => async () => {
+  return conn.close();
+};
+
+export { getConnection, setConnection, closeConnection };

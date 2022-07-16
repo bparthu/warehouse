@@ -2,7 +2,7 @@ import { Op } from "sequelize";
 import { Sequelize } from "sequelize-typescript";
 import { WarehouseConnectOptions } from "./interface";
 import { Inventory, Product, ProductInventory } from "./models";
-import { getConnection, setConnection } from "./utils/helper";
+import { getConnection, setConnection, closeConnection } from "./utils/helper";
 
 const connectToDB = async (options: WarehouseConnectOptions) => {
   // create sequalize instance with db connection config
@@ -37,6 +37,6 @@ const syncTables =
     return conn;
   };
 
-export { connectToDB, syncTables, getConnection };
+export { connectToDB, syncTables, getConnection, closeConnection };
 export { Inventory, Product, ProductInventory, Sequelize };
 export { WarehouseConnectOptions };

@@ -5,6 +5,7 @@
     "build": "lerna run build",
     "lint-check": "lerna run lint-check",
     "lint-fix": "lerna run lint-fix",
+    "debug-api": "ts-node apps/api/src/index.ts",
     "test": "lerna run test --stream",
     "seed": "ts-node apps/backoffice/src/index.ts"
   },

@@ -1,5 +1,5 @@
-import { connectToDB, syncTables } from "@warehouse/core";
-import { startSeeding, closeConnection } from "./domain/Seeder";
+import { connectToDB, syncTables, closeConnection } from "@warehouse/core";
+import { startSeeding } from "./domain/Seeder";
 import config from "./config";
 
 connectToDB({
@@ -11,8 +11,10 @@ connectToDB({
   .then(startSeeding(config.seederPath))
   .then(({ inventoriesCount, productsCount, productinventoriesCount }) => {
     console.log("successfully seeded", {
-      inventoriesCount, productsCount, productinventoriesCount
-    })
+      inventoriesCount,
+      productsCount,
+      productinventoriesCount,
+    });
   })
   .catch((err) => {
     console.log(err);
