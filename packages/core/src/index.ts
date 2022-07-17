@@ -38,5 +38,5 @@ const syncTables =
   };
 
 export { connectToDB, syncTables, getConnection, closeConnection };
-export { Inventory, Product, ProductInventory, Sequelize };
+export { Inventory, Product, ProductInventory, Sequelize, Op };
 export { WarehouseConnectOptions };

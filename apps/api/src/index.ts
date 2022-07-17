@@ -17,4 +17,3 @@ connectToDB({
   .catch((err) => {
     console.log(err);
   })
-  .finally(closeConnection());
