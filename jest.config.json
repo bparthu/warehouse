@@ -1,6 +1,7 @@
 {
   "verbose": true,
   "collectCoverage": true,
+  "testTimeout": 30000,
   "coverageReporters": ["lcov", "json"],
   "collectCoverageFrom": [
       "**/src/**"

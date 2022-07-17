@@ -31,10 +31,11 @@ const getProducts = async () => {
 
 const deleteProduct = async (productId: string) => {
   const conn = getConnection();
-  const t = await conn.transaction();
-  try {
+  const result = await conn.transaction(async (t) => {
     // check if product is available is delete
     const product = await Product.findOne({
+      transaction: t,
+      lock: t.LOCK.UPDATE,
       include: [Inventory],
       where: {
         id: productId,
@@ -44,13 +45,6 @@ const deleteProduct = async (productId: string) => {
     if (!available) {
       throw new Error("ProductNotAvailable");
     }
-    // const inventoryIds = product.inventories.map((inventory) => (inventory.id))
-    // const inventories = await Inventory.findAll({
-    //   include: [Product],
-    //   where: {
-    //     id: { [Op.in]: inventoryIds }
-    //   }
-    // })
 
     const prepareInventoriesToUpdate = product.inventories.map((inventory) => ({
       inventoryId: inventory.id,
@@ -67,6 +61,7 @@ const deleteProduct = async (productId: string) => {
             stock: lookupData.currentStocks - lookupData.numStocksToReduce,
           },
           {
+            transaction: t,
             where: {
               id: lookupData.inventoryId,
             },
@@ -74,12 +69,11 @@ const deleteProduct = async (productId: string) => {
         );
       })
     );
-    await t.commit();
+
     return prepareInventoriesToUpdate;
-  } catch (err) {
-    await t.rollback();
-    throw err;
-  }
+  });
+
+  return result;
 };
 
 export { getProducts, deleteProduct };
