@@ -94,7 +94,7 @@ describe("api", () => {
   });
 
   it("Should show correct stock quantity for test products", async () => {
-    const response = await request(app).get("/v1/products");
+    const response = await request(app).get("/api/v1/products");
     expect(
       (
         response.body as Array<{ id: number; name: string; stock: number }>
@@ -117,19 +117,18 @@ describe("api", () => {
     const parallelRequests = [];
     for (let i = 0; i < 100; i++) {
       parallelRequests.push(
-        request(app).delete(`/v1/products/${getHash("test product 1")}`)
+        request(app).delete(`/api/v1/products/${getHash("test product 1")}`)
       );
       parallelRequests.push(
-        request(app).delete(`/v1/products/${getHash("test product 2")}`)
+        request(app).delete(`/api/v1/products/${getHash("test product 2")}`)
       );
       parallelRequests.push(
-        request(app).delete(`/v1/products/${getHash("test product 3")}`)
+        request(app).delete(`/api/v1/products/${getHash("test product 3")}`)
       );
     }
     await Promise.all(parallelRequests);
 
-    //await request(app).delete(`/v1/products/${getHash("test product 1")}`);
-    const response = await request(app).get("/v1/products");
+    const response = await request(app).get("/api/v1/products");
     expect(
       (
         response.body as Array<{ id: number; name: string; stock: number }>

@@ -73,7 +73,7 @@ const deleteProduct = async (productId: string) => {
     return prepareInventoriesToUpdate;
   });
 
-  return result;
+  return { message: "successfully deleted product" };
 };
 
 export { getProducts, deleteProduct };

@@ -2,7 +2,8 @@
   "name": "root",
   "private": true,
   "scripts": {
-    "build": "lerna run build",
+    "bootstrap": "lerna bootstrap",
+    "build": "lerna run tsc",
     "lint-check": "lerna run lint-check",
     "lint-fix": "lerna run lint-fix",
     "debug:api": "ts-node apps/api/src/index.ts",
