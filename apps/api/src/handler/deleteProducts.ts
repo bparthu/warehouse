@@ -1,15 +1,18 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import * as asyncHandler from "express-async-handler";
 import { deleteProduct } from "../domain/product";
 
-const deleteProductsHandler = async (req: Request, res: Response) => {
+const deleteProductsHandler = async (
+  req: Request,
+  res: Response,
+  next: NextFunction
+) => {
   const productId = req.params.productId as string;
   try {
     const data = await deleteProduct(productId);
     res.json(data);
   } catch (err) {
-    console.log(err);
-    res.status(500).json({ message: "Internal Server Error" });
+    next(err);
   }
 };
 

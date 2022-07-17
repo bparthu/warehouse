@@ -1,3 +1,4 @@
 import getProductsHandler from "./getProducts";
 import deleteProductsHandler from "./deleteProducts";
-export { getProductsHandler, deleteProductsHandler };
+import errorHandler from "./errorHandler";
+export { getProductsHandler, deleteProductsHandler, errorHandler };
