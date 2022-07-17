@@ -9,23 +9,35 @@ const isProductAvailable = (products: Product) =>
     )
   ) >= 0;
 
+const getProductDetails = (product: Product) => {
+  const name = product.getDataValue("name");
+  const id = product.getDataValue("id");
+  const stock = Math.min(
+    ...product.inventories.map((inventory) => {
+      return Math.floor(
+        inventory.getDataValue("stock") /
+          inventory.getDataValue("ProductInventory").getDataValue("amountOf")
+      );
+    })
+  );
+  return { name, stock, id };
+};
+
+const getProduct = async (productId: string) => {
+  const product = await Product.findOne({
+    include: [Inventory],
+    where: {
+      id: productId,
+    },
+  });
+  return getProductDetails(product);
+};
+
 const getProducts = async () => {
   const products = await Product.findAll({
     include: [Inventory],
   });
-  const productCount = products.map((product) => {
-    const name = product.getDataValue("name");
-    const id = product.getDataValue("id");
-    const stock = Math.min(
-      ...product.inventories.map((inventory) => {
-        return Math.floor(
-          inventory.getDataValue("stock") /
-            inventory.getDataValue("ProductInventory").getDataValue("amountOf")
-        );
-      })
-    );
-    return { name, stock, id };
-  });
+  const productCount = products.map(getProductDetails);
   return productCount;
 };
 
@@ -43,7 +55,7 @@ const deleteProduct = async (productId: string) => {
     });
     const available = isProductAvailable(product);
     if (!available) {
-      throw new Error("ProductNotAvailable");
+      return;
     }
 
     const prepareInventoriesToUpdate = product.inventories.map((inventory) => ({
@@ -70,10 +82,11 @@ const deleteProduct = async (productId: string) => {
       })
     );
 
-    return prepareInventoriesToUpdate;
+    return;
   });
 
-  return { message: "successfully deleted product" };
+  const updatedProduct = await getProduct(productId);
+  return updatedProduct;
 };
 
 export { getProducts, deleteProduct };

@@ -9,7 +9,7 @@
         },
         {
           "art_id": "2",
-          "amount_of": "8"
+          "amount_of": "10"
         },
         {
           "art_id": "3",
@@ -30,6 +30,74 @@
         },
         {
           "art_id": "4",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dining Chair1",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "10"
+        },
+        {
+          "art_id": "3",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dining Chair2",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "10"
+        },
+        {
+          "art_id": "3",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dining Chair3",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "10"
+        },
+        {
+          "art_id": "3",
+          "amount_of": "1"
+        }
+      ]
+    },
+    {
+      "name": "Dining Chair4",
+      "contain_articles": [
+        {
+          "art_id": "1",
+          "amount_of": "4"
+        },
+        {
+          "art_id": "2",
+          "amount_of": "10"
+        },
+        {
+          "art_id": "3",
           "amount_of": "1"
         }
       ]
