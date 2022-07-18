@@ -22,6 +22,7 @@ describe("api", () => {
       username: "app-user",
       password: "app-pw",
     });
+    // setup test data
     await Inventory.bulkCreate([
       { id: 10000, name: "test item 1", stock: 100 },
       { id: 10001, name: "test item 2", stock: 100 },
@@ -148,6 +149,7 @@ describe("api", () => {
   });
 
   afterAll(async () => {
+    // cleanup test data
     await Inventory.destroy({
       where: {
         id: { [Op.in]: [10000, 10001, 10002] },
@@ -173,6 +175,7 @@ describe("api", () => {
         },
       },
     });
+    // close db connection
     await dbConnection.close();
     return;
   });
