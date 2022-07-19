@@ -89,4 +89,18 @@ const deleteProduct = async (productId: string) => {
   return updatedProduct;
 };
 
-export { getProducts, deleteProduct };
+const isValidProduct = async (productId) => {
+  let isValid = false;
+  // check if product is available is delete
+  const product = await Product.findOne({
+    where: {
+      id: productId,
+    },
+  });
+  if (product) {
+    isValid = true;
+  }
+  return isValid;
+};
+
+export { getProducts, deleteProduct, isValidProduct };
