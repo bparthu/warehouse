@@ -16,3 +16,18 @@ jobs:
         run: npm run bootstrap
       - name: build
         run: npm run build
+  services:
+    mysql:
+      image: mysql:8.0.29
+      ports:
+        - "3306:3306"
+      env:
+        MYSQL_ROOT_PASSWORD: ${{ secrets.MYSQL_ROOT_PASSWORD }}
+        MYSQL_DATABASE: warehouse
+        MYSQL_USER: app-user
+        MYSQL_PASSWORD: ${{ secrets.MYSQL_PASSWORD }}
+      options: >-
+          --health-cmd "mysqladmin ping -h localhost"
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
