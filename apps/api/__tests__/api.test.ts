@@ -92,7 +92,7 @@ describe("api", () => {
         amountOf: 1,
       },
     ]);
-    app = await createApp()(dbConnection);
+    app = await createApp()();
     return;
   });
 
