@@ -47,4 +47,7 @@ $ curl -X GET http://localhost:3000/api/v1/products
 $ curl -X DELETE http://localhost:3000/api/v1/products/63c5ca629911a65ab6f40b12a8ae7153
 ```
 
+Entity Relationship Diagram:
+![Entity Relationship Diagram](Entity_Relationship.png)
+
 :rainbow: Have a nice day :sunny:
