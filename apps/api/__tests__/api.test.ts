@@ -1,4 +1,5 @@
 import * as request from "supertest";
+import { Express } from "express";
 import { createHash } from "crypto";
 import {
   connectToDB,
@@ -6,14 +7,15 @@ import {
   Op,
   Product,
   ProductInventory,
+  Sequelize,
 } from "@warehouse/core";
 import createApp from "../src/app";
 
 const getHash = (text: string) => createHash("md5").update(text).digest("hex");
 
 describe("api", () => {
-  let app = null;
-  let dbConnection = null;
+  let app: Express;
+  let dbConnection: Sequelize;
 
   beforeAll(async () => {
     // connect to db
@@ -115,7 +117,7 @@ describe("api", () => {
   });
 
   it("Should delete product", async () => {
-    const parallelRequests = [];
+    const parallelRequests: request.Test[] = [];
     for (let i = 0; i < 100; i++) {
       parallelRequests.push(
         request(app).delete(`/api/v1/products/${getHash("test product 1")}`)
