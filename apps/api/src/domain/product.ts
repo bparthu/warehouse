@@ -1,4 +1,4 @@
-import { Product, Inventory, Op, getConnection } from "@warehouse/core";
+import { Product, Inventory, getConnection } from "@warehouse/core";
 
 const isProductAvailable = (products: Product) =>
   Math.min(
@@ -43,7 +43,7 @@ const getProducts = async () => {
 
 const deleteProduct = async (productId: string) => {
   const conn = getConnection();
-  const result = await conn.transaction(async (t) => {
+  await conn.transaction(async (t) => {
     // check if product is available is delete
     const product = await Product.findOne({
       transaction: t,

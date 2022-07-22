@@ -1,4 +1,4 @@
-import { connectToDB, closeConnection } from "@warehouse/core";
+import { connectToDB } from "@warehouse/core";
 import createApp from "./app";
 import startServer from "./server";
 

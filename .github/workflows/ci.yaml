@@ -27,7 +27,10 @@ jobs:
           cache: 'npm'
       - name: Install Dependencies
         run: npm ci
-      - nane: Audit check
+      - name: Audit check
+        run: npm run audit
+      - name: Lint check
+        run: npm run lint-check
       - name: Bootstrap modules
         run: npm run bootstrap
       - name: Build
